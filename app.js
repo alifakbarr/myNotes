@@ -1,5 +1,6 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
+const methodOverride = require('method-override') // for make PUT and DELETE method
 
 const { body, validationResult, check} = require('express-validator')
 
@@ -10,6 +11,9 @@ const Note = require('./models/note')
 // set up express
 const app = express()
 const port = 3000
+
+// set up method-override
+app.use(methodOverride('_method'))
 
 // set up ejs layouts
 app.set('view engine', 'ejs')
@@ -43,6 +47,21 @@ app.post('/note', (req,res) =>{
         })
     }
 )
+
+// detail note
+app.get('/note/detail/:id', async (req,res) => {
+    const note = await Note.findOne({ _id : req.params.id})
+    res.render('notes/detail',{
+        title : note.title,
+        layout: 'layouts/main-layout',
+        note
+    })
+})
+
+app.delete('/note', async (req,res) => {
+    await Note.deleteOne({_id: req.body._id})
+    res.redirect('/')
+})
 
 // listen
 app.listen(port,()=>{
