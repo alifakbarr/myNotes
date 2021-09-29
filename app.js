@@ -58,10 +58,30 @@ app.get('/note/detail/:id', async (req,res) => {
     })
 })
 
+app.get('/note/edit/:id', async (req,res) => {
+    const note = await Note.findOne({_id : req.params.id})
+    res.render('notes/edit',{
+        title : note.title,
+        layout: 'layouts/main-layout',
+        note
+    })
+})
+
+app.put('/note', async(req,res) => {
+    await Note.updateMany({_id:req.body.id},{
+        $set : {
+            title : req.body.title,
+            note: req.body.note
+        }
+    })
+    res.redirect('/')
+})
+
 app.delete('/note', async (req,res) => {
     await Note.deleteOne({_id: req.body._id})
     res.redirect('/')
 })
+
 
 // listen
 app.listen(port,()=>{

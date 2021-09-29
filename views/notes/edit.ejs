@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <div class="alert alert-warning" role="alert">
+                Edit 
+              </div>
+            <form action="/note?_method=PUT" method="post" class="shadow p-3 mb-5 bg-body rounded">
+                <div class="mb-3">
+                    <input type="hidden" name="id" value="<%= note._id %>">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="My Notes" value="<%= note.title %> " required name="title">
+                  </div>
+                  <div class="mb-3">
+                    <label for="note" class="form-label">Notes</label>
+                    <textarea class="form-control" id="note" rows="4" required name="note"><%= note.note %> </textarea>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                      <button type="submit" class="btn btn-sm btn-warning">Save</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>

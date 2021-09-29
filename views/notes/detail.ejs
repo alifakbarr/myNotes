@@ -6,7 +6,8 @@
       <blockquote class="blockquote mb-0">
         <p><%= note.note %> </p>
       </blockquote>
-      <form action="/note?_method=DELETE" method="POST">
+      <a href="/note/edit/<%= note._id %>" class="btn btn-sm btn-warning ">Edit</a>
+      <form action="/note?_method=DELETE" method="POST" class="d-inline">
         <input type="hidden" name="_id" value="<%= note._id %>">
         <button type="submit" class="btn btn-sm btn-danger" onClick ="return confirm('yakin?')">Delete</button>
       </form>
