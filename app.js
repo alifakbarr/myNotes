@@ -48,6 +48,24 @@ app.post('/note', (req,res) =>{
     }
 )
 
+// search note
+app.post('/search', (req,res) => {
+    // res.send(req.body.title)
+    Note.find({title : {$regex : ".*" + req.body.title + ".*"}},(error,notes) => {
+        if(error){
+            return console.log(error);
+        }else{
+            res.render('index',{
+                title: 'MyNotes',
+                layout: 'layouts/main-layout',
+                notes
+        
+            })
+        }
+    })
+    // const test = Note.find({title : req.body.title}).then((result) => console.log(result))
+})
+
 // detail note
 app.get('/note/detail/:id', async (req,res) => {
     const note = await Note.findOne({ _id : req.params.id})
@@ -58,6 +76,7 @@ app.get('/note/detail/:id', async (req,res) => {
     })
 })
 
+// page edit note
 app.get('/note/edit/:id', async (req,res) => {
     const note = await Note.findOne({_id : req.params.id})
     res.render('notes/edit',{
@@ -67,6 +86,7 @@ app.get('/note/edit/:id', async (req,res) => {
     })
 })
 
+// update note
 app.put('/note', async(req,res) => {
     await Note.updateMany({_id:req.body.id},{
         $set : {
@@ -77,6 +97,7 @@ app.put('/note', async(req,res) => {
     res.redirect('/')
 })
 
+// delete note
 app.delete('/note', async (req,res) => {
     await Note.deleteOne({_id: req.body._id})
     res.redirect('/')
